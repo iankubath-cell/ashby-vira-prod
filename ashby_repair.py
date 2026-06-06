@@ -171,4 +171,28 @@ class RepairEngine:
     def _find_alternate_paths_graph(self, failed_node: str) -> List[Dict[str, Any]]:
         """
         Search the graph for alternate nodes that might achieve the goal.
-        (Stub implem
+        (Stub implementation returns mock data).
+        """
+        if not hasattr(self, 'graph') or self.graph is None:
+            return [{"action": "Restart Service", "confidence": 0.6, "nodes": ["System", "Service"]}]
+        
+        # Mock logic: Return a generic fallback
+        return [
+            {
+                "action": "Rollback to Last Stable State",
+                "confidence": 0.70,
+                "nodes": ["Failed_Node", "Previous_State"]
+            }
+        ]
+
+    def _suggest_analogy(self, failed_action: str) -> Optional[RepairRecommendation]:
+        """Suggest a solution based on cross-domain analogy (Stub)."""
+        # Example: If "Scale Up" failed in Infrastructure, suggest "Traffic Smoothing" from Traffic domain
+        return RepairRecommendation(
+            action="Implement Request Throttling (Traffic Analogy)",
+            confidence=0.65,
+            reasoning="Mapped to 'Variable Speed Limits' from Traffic Management domain.",
+            estimated_impact=0.60,
+            risk_level="MEDIUM",
+            source_domain="analogy_traffic"
+        )
