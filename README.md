@@ -1,362 +1,273 @@
-Ashby-Vira Semantic Engine
+# Ashby-Vira Semantic Engine
 
-
-
-Causal Validation Engine for Autonomous Systems
-
-
+**Causal Validation Engine for Autonomous Systems**
 
 Production-grade FastAPI backend that validates proposed interventions using semantic causal graphs. Prevents dangerous actions while approving safe ones, backed by causal reasoning rather than simple rules.
 
-Overview
+---
 
+## Overview
 
+Ashby-Vira operates at **Rung 2 (Intervention)** of Pearl's Ladder of Causation. It performs deterministic validation of proposed interventions against a domain-specific semantic causal graph, answering:
 
-Ashby-Vira operates at Rung 2 (Intervention) of Pearl's Ladder of Causation. It performs deterministic validation of proposed interventions against a domain-specific semantic causal graph, answering:
+> *"If I perform this action, will it achieve my goal without causing catastrophes?"*
 
+### Key Capabilities
 
+| Feature | Description |
+|---------|-------------|
+| **Path Existence Check** | Does a valid causal path exist from intervention to goal? |
+| **Safety Analysis** | Will this intervention cause cascading failures? |
+| **Precondition Validation** | Are all prerequisites satisfied? |
+| **Empirical Evidence** | Does historical data support this action? |
+| **Auto-Repair** | Proposes fixes when validation fails |
+| **System Health Monitoring** | Tracks drift and stability over time |
 
-&#x20;   "If I perform this action, will it achieve my goal without causing catastrophes?"
+---
 
+## Architecture# Ashby-Vira Semantic Engine
 
+**Causal Validation Engine for Autonomous Systems**
 
-Key Capabilities
+Production-grade FastAPI backend that validates proposed interventions using semantic causal graphs. Prevents dangerous actions while approving safe ones, backed by causal reasoning rather than simple rules.
 
-Feature 	Description
+---
 
-Path Existence Check 	Does a valid causal path exist from intervention to goal?
+## Overview
 
-Safety Analysis 	Will this intervention cause cascading failures?
+Ashby-Vira operates at **Rung 2 (Intervention)** of Pearl's Ladder of Causation. It performs deterministic validation of proposed interventions against a domain-specific semantic causal graph, answering:
 
-Precondition Validation 	Are all prerequisites satisfied?
+> *"If I perform this action, will it achieve my goal without causing catastrophes?"*
 
-Empirical Evidence 	Does historical data support this action?
+### Key Capabilities
 
-Auto-Repair 	Proposes fixes when validation fails
+| Feature | Description |
+|---------|-------------|
+| **Path Existence Check** | Does a valid causal path exist from intervention to goal? |
+| **Safety Analysis** | Will this intervention cause cascading failures? |
+| **Precondition Validation** | Are all prerequisites satisfied? |
+| **Empirical Evidence** | Does historical data support this action? |
+| **Auto-Repair** | Proposes fixes when validation fails |
+| **System Health Monitoring** | Tracks drift and stability over time |
 
-System Health Monitoring 	Tracks drift and stability over time
+---
 
-Architecture Response:
+## Architecture
 
+┌─────────────────────────────┐ │ API Server │ │ (FastAPI, Port 8000) │ └──────────┬──────────────────┘ │ ┌───────▼───────┐ ┌──────────────┐ │ Validator │ │ Immune │ │ (Vira) │ │ System │ │ - Graph Traversal│ │ - Health │ │ - 6-Check Logic│ │ Score │ │ - Decision Out│ │ - Drift Det.│ └───────────────┘ └──────────────┘
 
+### Components
 
-┌─────────────────────────────────────────────────────────┐ │ API Server │ │ (FastAPI, Port 8000) │ └────────────┬───────────────────────┬────────────────────┘ │ │ ┌────────▼────────┐ ┌───────▼────────┐ │ Validator │ │ Immune │ │ (Vira) │ │ System │ │ - Graph Traversal │ - Health Score │ │ - 6-Check Logic │ - Drift Detect │ │ - Decision Output │ - Stability │ └─────────────────┘ └────────────────┘
+| Module | Purpose |
+|--------|---------|
+| `api_server.py` | FastAPI backend with REST endpoints |
+| `validator.py` | ViraValidator with 6-check deterministic validation |
+| `semantic_graph.py` | Domain-specific causal graph creation (infrastructure, healthcare) |
+| `semantic_immune_system.py` | Health monitoring (score 0–100), drift detection, auto-calibration |
+| `ashby_repair.py` | Proposes parameter adjustments when errors detected |
+| `simulator.py` | Timeline/path execution simulation |
 
-Components
+---
 
-Module 	Purpose
+## Installation
 
-api\_server.py 	FastAPI backend with REST endpoints
+### Prerequisites
 
-validator.py 	ViraValidator with 6-check deterministic validation
+- Python 3.9+
+- Virtual environment (recommended)
 
-semantic\_graph.py 	Domain-specific causal graph creation (infrastructure, healthcare)
+### Setup
 
-semantic\_immune\_system.py 	Health monitoring (score 0–100), drift detection, auto-calibration
+bash
+Clone repository
 
-ashby\_repair.py 	Proposes parameter adjustments when errors detected
+git clone https://github.com/iankubath-cell/ashby-vira-prod.git cd ashby-vira-prod
+Create virtual environment
 
-simulator.py 	Timeline/path execution simulation
+python -m venv venv venv\Scripts\activate # Windows source venv/bin/activate # macOS/Linux
+Install dependencies
 
-Installation
+pip install fastapi uvicorn pydantic networkx
+Run server
 
-Prerequisites
+python api_server.py
 
+Server starts at: `http://localhost:8000`
 
+---
 
-&#x20;   Python 3.9+
+## API Endpoints
 
-&#x20;   Virtual environment (recommended)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/validate` | POST | Validate an intervention |
+| `/repair` | POST | Get repair recommendations |
+| `/simulate` | POST | Simulate timeline execution |
+| `/health` | GET | System health status |
+| `/state` | GET | Validator state/stats |
+| `/immune/diagnostic` | POST | Run drift diagnostic |
+| `/immune/dashboard` | GET | Health dashboard data |
+| `/decay_cycle` | POST | Apply decay cycle manually |
+| `/docs` | GET | Swagger UI documentation |
 
-&#x20;   Setup
+---
 
+## Usage Examples
 
+### Validate an Intervention
 
-bash Clone repository
+bash curl -X POST http://localhost:8000/validate
+-H "Content-Type: application/json"
+-d '{ "intervention": "SCALE_UP_REPLICAS", "current_state": {"cpu_percent": 50}, "goal_property": "Value" }'
 
+**Response:**
 
+json { "status": "APPROVED", "reason": "Intervention validated: Safe path exists, no catastrophes detected", "intervention": "SCALE_UP_REPLICAS", "path": ["SCALE_UP_REPLICAS", "system_stability"], "predicted_effect": 0.95, "conflicts": [], "risk_flags": [], "empirical_success_rate": 0.92 }
 
-git clone https://github.com/YOUR\_USERNAME/ashby-vira-prod.git cd ashby-vira-prod Create virtual environment
-
-
-
-python -m venv venv venv\\Scripts\\activate # Windows source venv/bin/activate # macOS/Linux Install dependencies
-
-
-
-pip install fastapi uvicorn pydantic networkx Run server
-
-
-
-python api\_server.py
-
-
-
-Server starts at: http://localhost:8000
-
-API Endpoints
-
-Endpoint 	Method 	Description
-
-/validate 	POST 	Validate an intervention
-
-/repair 	POST 	Get repair recommendations
-
-/simulate 	POST 	Simulate timeline execution
-
-/health 	GET 	System health status
-
-/state 	GET 	Validator state/stats
-
-/immune/diagnostic 	POST 	Run drift diagnostic
-
-/immune/dashboard 	GET 	Health dashboard data
-
-/decay\_cycle 	POST 	Apply decay cycle manually
-
-/docs 	GET 	Swagger UI documentation
-
-Usage Examples
-
-Validate an Intervention
-
-
-
-bash curl -X POST http://localhost:8000/validate -H "Content-Type: application/json" -d '{ "intervention": "SCALE\_UP\_REPLICAS", "current\_state": {"cpu\_percent": 50}, "goal\_property": "Value" }'
-
-
-
-Response:
-
-
-
-json { "status": "APPROVED", "reason": "Intervention validated: Safe path exists, no catastrophes detected", "intervention": "SCALE\_UP\_REPLICAS", "path": \["SCALE\_UP\_REPLICAS", "system\_stability"], "predicted\_effect": 0.95, "conflicts": \[], "risk\_flags": \[], "empirical\_success\_rate": 0.92 }
-
-Check System Health
-
-
+### Check System Health
 
 bash curl http://localhost:8000/health
 
+**Response:**
 
+json { "status": "ok", "engine": "Ashby-Vira Semantic", "version": "3.2", "domain": "infrastructure", "graph_nodes": 3, "graph_edges": 1, "health_score": 100.0, "severity": "HEALTHY", "uptime_seconds": 3600.5 }
 
-Response:
+---
 
+## Validation Status Types
 
+| Status | Meaning | Action Required |
+|--------|---------|-----------------|
+| `APPROVED` | Validated: Safe path exists, high confidence | Execute intervention |
+| `INCONCLUSIVE` | Low confidence: Requires human review | Escalate to operator |
+| `FROZEN` | Blocked: Dangerous or catastrophic risk | Manual override required |
 
-json { "status": "ok", "engine": "Ashby-Vira Semantic", "version": "3.2", "domain": "infrastructure", "graph\_nodes": 3, "graph\_edges": 1, "health\_score": 100.0, "severity": "HEALTHY", "uptime\_seconds": 3600.5 }
+---
 
-Validation Status Types
+## Known Interventions
 
-Status 	Meaning 	Action Required
+### Safe Interventions
 
-APPROVED 	Validated: Safe path exists, high confidence 	Execute intervention
+| Intervention | Success Rate |
+|--------------|--------------|
+| `SCALE_UP_REPLICAS` | 92% |
+| `ADD_MEMORY` | 87% |
+| `INCREASE_CONNECTION_POOL` | 88% |
+| `ENABLE_CACHING` | 85% |
+| `RESTART_SERVICE` | 80% |
 
-INCONCLUSIVE 	Low confidence: Requires human review 	Escalate to operator
+### Dangerous Interventions (Always Blocked)
 
-FROZEN 	Blocked: Dangerous or catastrophic risk 	Manual override required
+- `FORCE_KILL_PODS`
+- `DELETE_ALL_DATA`
+- `DROP_DATABASE`
+- `DISABLE_FIREWALL`
+- `REMOVE_ALL_REPLICAS`
 
-Known Interventions
+---
 
-Safe Interventions
-
-Intervention 	Success Rate
-
-SCALE\_UP\_REPLICAS 	92%
-
-ADD\_MEMORY 	87%
-
-INCREASE\_CONNECTION\_POOL 	88%
-
-ENABLE\_CACHING 	85%
-
-RESTART\_SERVICE 	80%
-
-Dangerous Interventions (Always Blocked)
-
-
-
-&#x20;   FORCE\_KILL\_PODS
-
-&#x20;   DELETE\_ALL\_DATA
-
-&#x20;   DROP\_DATABASE
-
-&#x20;   DISABLE\_FIREWALL
-
-&#x20;   REMOVE\_ALL\_REPLICAS
-
-
-
-Configuration
-
-
+## Configuration
 
 Environment Variables:
 
-Variable 	Default 	Description
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | 8000 | Server port |
+| `MAX_HISTORY_SIZE` | 1000 | Validation history window |
+| `MAX_STRING_LEN` | 500 | String truncation limit |
+| `ALLOWED_ORIGINS` | "*" | CORS origins |
+| `RATE_LIMIT_PER_MINUTE` | 60 | Requests per minute |
+| `RATE_LIMIT_TTL_SECONDS` | 300 | Rate limit window |
 
-PORT 	8000 	Server port
+---
 
-MAX\_HISTORY\_SIZE 	1000 	Validation history window
+## Development
 
-MAX\_STRING\_LEN 	500 	String truncation limit
-
-ALLOWED\_ORIGINS 	"\*" 	CORS origins
-
-RATE\_LIMIT\_PER\_MINUTE 	60 	Requests per minute
-
-RATE\_LIMIT\_TTL\_SECONDS 	300 	Rate limit window
-
-Development
-
-Add Custom Interventions
-
-
+### Add Custom Interventions
 
 python from validator import ViraValidator
 
+validator = ViraValidator(domain="infrastructure")
+Add safe intervention
 
+validator.add_custom_intervention("CUSTOM_ACTION", success_rate=0.85)
+Add dangerous intervention
 
-validator = ViraValidator(domain="infrastructure") Add safe intervention
+validator.add_custom_intervention("DANGEROUS_ACTION", success_rate=0.0, is_dangerous=True)
 
+### Domain Support
 
+| Domain | Graph Type | Use Case |
+|--------|------------|----------|
+| `infrastructure` | Network/Service topology | DevOps, Kubernetes, cloud |
+| `healthcare` | Clinical decision tree | Medical interventions |
 
-validator.add\_custom\_intervention("CUSTOM\_ACTION", success\_rate=0.85) Add dangerous intervention
+To add new domains, extend `semantic_graph.py`.
 
+---
 
+## Shadow Monitoring (Experimental)
 
-validator.add\_custom\_intervention("DANGEROUS\_ACTION", success\_rate=0.0, is\_dangerous=True)
+The `shadow_fseq_monitor.py` module provides **dual-track validation** research capabilities:
 
-Domain Support
+- **Bayesian Track**: Uses system health score as prior (trust-weighted)
+- **Popperian Track**: Ignores health, tests evidence severity only
 
+This runs in **shadow mode** — does not affect production decisions, only logs divergence events for calibration analysis.
 
+bash
+Standalone test
 
-Currently supported domains:
+python shadow_fseq_monitor.py
+View calibration report
 
-Domain 	Graph Type 	Use Case
+python -c "from shadow_fseq_monitor import shadow_monitor; shadow_monitor.generate_calibration_report()"
 
-infrastructure 	Network/Service topology 	DevOps, Kubernetes, cloud
+---
 
-healthcare 	Clinical decision tree 	Medical interventions
+## Research Context
 
+This system implements findings from the **F-SEQ v2** paper:
 
-
-To add new domains, extend semantic\_graph.py.
-
-Shadow Monitoring (Experimental)
-
-
-
-The shadow\_fseq\_monitor.py module provides dual-track validation research capabilities:
-
-
-
-&#x20;   Bayesian Track: Uses system health score as prior (trust-weighted)
-
-&#x20;   Popperian Track: Ignores health, tests evidence severity only
-
-
-
-This runs in shadow mode — does not affect production decisions, only logs divergence events for calibration analysis.
-
-Shadow Monitor Commands
-
-
-
-bash Standalone test
-
-
-
-python shadow\_fseq\_monitor.py View calibration report (after running validations)
-
-
-
-python -c "from shadow\_fseq\_monitor import shadow\_monitor; shadow\_monitor.generate\_calibration\_report()"
-
-Research Context
-
-
-
-This system implements findings from the F-SEQ v2 paper:
-
-
-
-&#x20;   "Corroboration as Decision Criterion: Competitive Under Weak Priors, Sample-Inefficient Under Strong Ones"
-
-
+> *"Corroboration as Decision Criterion: Competitive Under Weak Priors, Sample-Inefficient Under Strong Ones"*
 
 Key insight: Different decision strategies work best in different regimes. The hybrid architecture uses Bayesian inference for routine decisions and Popperian corroboration as supervisory monitoring.
 
+---
 
+## Troubleshooting
 
-Paper: https://arxiv.org/\[REPLACE\_WITH\_ACTUAL\_URL]
+| Issue | Solution |
+|-------|----------|
+| `ModuleNotFoundError` | Ensure all `.py` files are in the same directory |
+| `Graph initialization failed` | Check `semantic_graph.py` for syntax errors |
+| `Rate limit exceeded` | Increase `RATE_LIMIT_PER_MINUTE` env var |
+| `Validation always APPROVED` | Verify graph has edges (minimal: 1 node, 1 edge) |
 
-Troubleshooting
+---
 
-Common Issues
+## Contributing
 
-Issue 	Solution
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
-ModuleNotFoundError 	Ensure all .py files are in the same directory
+---
 
-Graph initialization failed 	Check semantic\_graph.py for syntax errors
+## License
 
-Rate limit exceeded 	Increase RATE\_LIMIT\_PER\_MINUTE env var
+MIT (Code), CC-BY-SA (Paper)
 
-Validation always APPROVED 	Verify graph has edges (minimal: 1 node, 1 edge)
+---
 
-Enable Debug Logging
+## Contact
 
+- **Author:** Ian Kubath
+- **Email:** [ViraListen@proton.me](mailto:ViraListen@proton.me)
 
+---
 
-python In api\_server.py
-
-
-
-import logging logging.basicConfig(level=logging.DEBUG)
-
-Contributing
-
-
-
-&#x20;   Fork repository
-
-&#x20;   Create feature branch (git checkout -b feature/amazing-feature)
-
-&#x20;   Commit changes (git commit -m 'Add amazing feature')
-
-&#x20;   Push to branch (git push origin feature/amazing-feature)
-
-&#x20;   Open Pull Request
-
-
-
-License
-
-
-
-Copyright © 2026 Ashby Project. All rights reserved.
-
-Acknowledgments
-
-
-
-Built with:
-
-
-
-&#x20;   FastAPI
-
-&#x20;   NetworkX
-
-&#x20;   Pydantic
-
-&#x20;   Uvicorn
-
-
-
-Research methodology based on F-SEQ v2 falsification protocol.
-
-
-
+**Version:** 3.2  
+**Last Updated:** July 2026
